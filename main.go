@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"rerun-workflow-for-branch/helpers"
-	"rerun-workflow-for-branch/providers"
+	"rerun_workflow_for_branch/helpers"
+	"rerun_workflow_for_branch/providers"
 )
 
-// TODO(michel): add a readme
 // TODO(michel): I could be easily convinced to used structured logging if we wanted that
 
 var (
