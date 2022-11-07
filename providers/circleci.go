@@ -8,6 +8,8 @@ import (
 	"sort"
 )
 
+const runningStatus = "running"
+
 type CircleCI struct {
 	client      *circleci.Client
 	projectSlug string
@@ -36,8 +38,13 @@ func (c *CircleCI) TriggerWorkflow(ctx context.Context, branch string, workflowN
 	if err != nil {
 		return fmt.Errorf("finding workflow: %w", err)
 	}
+	// TODO(michel): these no-exec cases are a bit loud, they could be abstracted to another function to clean up
 	if workflow == nil {
 		log.Printf("WARNING: could not find the workflow %s provided - no work done", workflowName)
+		return nil
+	}
+	if workflow.Status == runningStatus {
+		log.Printf("INFO: workflow %#v is already running - no work done", workflow)
 		return nil
 	}
 	if c.dryRun {
@@ -45,7 +52,7 @@ func (c *CircleCI) TriggerWorkflow(ctx context.Context, branch string, workflowN
 		return nil
 	}
 	// todo(michel): good candidate for structured logging
-	log.Printf("INFO: retriggered workflow: %s for pipeline %s for branch %s", workflow.Name, pipeline.ID, branch)
+	log.Printf("INFO: retriggered workflow: %s for pipeline %s for branch %s", workflow.ID, pipeline.ID, branch)
 	if err := c.client.Workflows.Rerun(ctx, workflow.ID, circleci.WorkflowRerunOptions{}); err != nil {
 		return fmt.Errorf("rerunning workflow: %w", err)
 	}
