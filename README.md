@@ -36,7 +36,7 @@ GITHUB_PROJECT_SLUG=core-api
 GITHUB_TOKEN=<token>
 ```
 
-to rerun the release pipeline in question. If combine this with a GitHub action that triggers on merge of a `hotfix/*` 
+to rerun the release pipeline in question. If we combine this with a GitHub action that triggers on merge of a `hotfix/*` 
 branch, then we can successfully automate the manual action taken after a hotfix branch merges to master.
 
 ## Limitations
