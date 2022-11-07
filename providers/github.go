@@ -9,8 +9,6 @@ import (
 	"strings"
 )
 
-// fixme: verify pointer dereferences
-
 type Github struct {
 	client       *github.Client
 	branchPrefix string
