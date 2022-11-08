@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/GlossGenius/rerun-ci-workflow-for-branch/internal/helpers"
+	"github.com/GlossGenius/rerun-ci-workflow-for-branch/internal/providers"
 	"log"
 	"os"
-	"rerun_workflow_for_branch/helpers"
-	"rerun_workflow_for_branch/providers"
 )
 
 // TODO(michel): I could be easily convinced to used structured logging if we wanted that
@@ -14,7 +14,7 @@ import (
 var (
 	githubAccessToken   = os.Getenv("GITHUB_TOKEN")
 	githubOrg           = os.Getenv("GITHUB_ORG_SLUG")
-	githubProjectSlug   = os.Getenv("GITHUB_PROJECT_SLUG")
+	githubProjectSlug   = os.Getenv("GITHUB_REPOSITORY_OWNER")
 	branchPrefix        = os.Getenv("BRANCH_PREFIX")
 	circleCIToken       = os.Getenv("CIRCLE_CI_TOKEN")
 	workflowName        = os.Getenv("CIRCLE_CI_WORKFLOW_NAME")
