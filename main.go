@@ -12,13 +12,14 @@ import (
 // TODO(michel): I could be easily convinced to used structured logging if we wanted that
 
 var (
+	// NB scope of this token documented here: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 	githubAccessToken   = os.Getenv("GITHUB_TOKEN")
 	githubOrg           = os.Getenv("GITHUB_ORG_SLUG")
 	githubProjectSlug   = os.Getenv("GITHUB_REPOSITORY_OWNER")
 	branchPrefix        = os.Getenv("BRANCH_PREFIX")
 	circleCIToken       = os.Getenv("CIRCLE_CI_TOKEN")
 	workflowName        = os.Getenv("CIRCLE_CI_WORKFLOW_NAME")
-	circleCIprojectSlug = os.Getenv("CIRCLE_CI_PROJECT_SLUG")
+	circleCIProjectSlug = os.Getenv("CIRCLE_CI_PROJECT_SLUG")
 	dryRun              = os.Getenv("DRY_RUN")
 )
 
@@ -40,7 +41,7 @@ func run(ctx context.Context, github *providers.Github, circleci *providers.Circ
 func main() {
 	ctx := context.Background()
 	dryRunParsed := helpers.MustParseBool(dryRun)
-	circleci := providers.NewCircleCI(circleCIToken, circleCIprojectSlug, dryRunParsed)
+	circleci := providers.NewCircleCI(circleCIToken, circleCIProjectSlug, dryRunParsed)
 	github := providers.NewGithub(ctx, githubAccessToken, branchPrefix, githubProjectSlug, githubOrg)
 	run(ctx, github, circleci)
 }
