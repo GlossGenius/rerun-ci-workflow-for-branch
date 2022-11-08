@@ -12,7 +12,7 @@ import (
 // TODO(michel): I could be easily convinced to used structured logging if we wanted that
 
 var (
-	// NB scope of this token documented here: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+	// NB this token is documented here: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 	githubAccessToken   = os.Getenv("GITHUB_TOKEN")
 	githubOrg           = os.Getenv("GITHUB_ORG_SLUG")
 	githubProjectSlug   = os.Getenv("GITHUB_REPOSITORY_OWNER")
