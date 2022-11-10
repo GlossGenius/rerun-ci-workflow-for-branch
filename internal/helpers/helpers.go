@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+//TODO(michel): rename this package to be more expressive. (100 common go mistakes #13 - creating common packages)
+
 // MustParseBool takes in a boolean representation of a string and returns a boolean. Defaults to false if an invalid string is provided.
 func MustParseBool(boolean string) bool {
 	parsed, err := strconv.ParseBool(boolean)

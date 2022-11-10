@@ -1,3 +1,4 @@
+// TODO: add a package comment
 package providers
 
 import (
@@ -10,12 +11,14 @@ import (
 
 const runningStatus = "running"
 
+// TODO: add comment - all exported things should have a comment
 type CircleCI struct {
 	client      *circleci.Client
 	projectSlug string
 	dryRun      bool
 }
 
+// TODO: move this to a providers file with package comment
 func NewCircleCI(token string, projectSlug string, dryRun bool) *CircleCI {
 	return &CircleCI{
 		client:      mustGetCircleCIClient(token),
