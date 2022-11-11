@@ -14,13 +14,13 @@ import (
 var (
 	// NB this token is documented here: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 	githubAccessToken   = os.Getenv("GITHUB_TOKEN")
-	githubOrg           = os.Getenv("GITHUB_ORG_SLUG")
-	githubProjectSlug   = os.Getenv("GITHUB_REPOSITORY_OWNER")
-	branchPrefix        = os.Getenv("BRANCH_PREFIX")
+	githubOrg           = os.Getenv("GITHUB_REPOSITORY_OWNER")
+	githubProjectSlug   = os.Getenv("INPUT_GITHUB_PROJECT_SLUG")
+	branchPrefix        = os.Getenv("INPUT_BRANCH_PREFIX")
 	circleCIToken       = os.Getenv("CIRCLE_CI_TOKEN")
-	workflowName        = os.Getenv("CIRCLE_CI_WORKFLOW_NAME")
-	circleCIProjectSlug = os.Getenv("CIRCLE_CI_PROJECT_SLUG")
-	dryRun              = os.Getenv("DRY_RUN")
+	workflowName        = os.Getenv("INPUT_CIRCLE_CI_WORKFLOW_NAME")
+	circleCIProjectSlug = os.Getenv("INPUT_CIRCLE_CI_PROJECT_SLUG")
+	dryRun              = os.Getenv("INPUT_DRY_RUN")
 )
 
 func run(ctx context.Context, github *providers.Github, circleci *providers.CircleCI) {
