@@ -19,7 +19,7 @@ inputs:
     description: 'the prefix of the git branch to fetch the circle ci workflow from'
     required: true
   github_repository_owner:
-    description: 'the owner of the github project'
+    description: 'the owner of the github project. Ex: GlossGenius'
     required: false
     default: 'GlossGenius'
 
