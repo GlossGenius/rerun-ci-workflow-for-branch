@@ -14,7 +14,7 @@ import (
 var (
 	// NB this token is documented here: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 	githubAccessToken   = os.Getenv("GITHUB_TOKEN")
-	githubOrg           = os.Getenv("GITHUB_REPOSITORY_OWNER")
+	githubOrg           = os.Getenv("INPUT_GITHUB_REPOSITORY_OWNER")
 	githubProjectSlug   = os.Getenv("INPUT_GITHUB_PROJECT_SLUG")
 	branchPrefix        = os.Getenv("INPUT_BRANCH_PREFIX")
 	circleCIToken       = os.Getenv("CIRCLE_CI_TOKEN")
