@@ -1,0 +1,8 @@
+# ignore everything by default
+*
+
+# allow specific files and directories
+!/internal/**
+!go.mod
+!go.sum
+!main.go
