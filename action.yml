@@ -36,3 +36,4 @@ runs:
     - ${{ inputs.circle_ci_project_slug }}
     - ${{ inputs.circle_ci_workflow_name }}
     - ${{ inputs.branch_prefix }}
+    - ${{ inputs.github_repository_owner }}
