@@ -3,7 +3,7 @@
 This tool is used to re-trigger a circle ci workflow of a circle ci pipeline based on a prefix of a git branch. The 
 original inspiration for this work comes from [this](https://glossgenius.slack.com/archives/C034J6ZLJJ3/p1667303969324539)
 Slack conversation where a manual action is required to redeploy the release branch to staging.
-
+// FIXME: modify for GH action docs
 ## Configuration
 
 The tool is configured via environment variables and configure the following functionality:
