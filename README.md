@@ -3,41 +3,59 @@
 This tool is used to re-trigger a circle ci workflow of a circle ci pipeline based on a prefix of a git branch. The 
 original inspiration for this work comes from [this](https://glossgenius.slack.com/archives/C034J6ZLJJ3/p1667303969324539)
 Slack conversation where a manual action is required to redeploy the release branch to staging.
-// FIXME: modify for GH action docs
-## Configuration
+## Inputs
 
-The tool is configured via environment variables and configure the following functionality:
+## `branch_prefix`
+**Required.** The prefix of the branch we wish to rerun a workflow for
 
-```text
-BRANCH_PREFIX: the prefix of the branch we wish to rerun a workflow for
-DRY_RUN: if true, will prevent the workflow from being rerun
-CIRCLE_CI_PROJECT_SLUG: the project slug circle ci uses to access the workflow. EX: gh/GlossGenius/core-api
-CIRCLE_CI_WORKFLOW_NAME: the name of the workflow to rerun
-GITHUB_ORG_SLUG: the github organization who owns the GITHUB_PROJECT_SLUG. EX: GlossGenius
-GITHUB_PROJECT_SLUG: the github project where the branch with BRANCH_PREFIX exists. EX: core-api
+## `circle_ci_project_slug`
+**Required.** The project slug circle ci uses to access the workflow. EX: gh/GlossGenius/core-api
 
+## `circle_ci_workflow_name` 
+**Required.** The name of the circle ci workflow to rerun.
 
-# external API access
-CIRCLE_CI_TOKEN: the token used to access the circle ci api
-GITHUB_TOKEN: the token used to access the github API
-```
+## `github_project_slug`
+**Required.** The project to search for a `branch_prefix` in. ex: `core-api`
+
+## `github_repository_owner`
+**Required.** The GitHub organization who owns the `github_project_slug` project. EX: GlossGenius
+
+## `dry_run`
+Optional. Defaults to false. If true, will prevent rerunning of any workflow on circle ci
+
+# external API access environment variables
+
+The project requires additional configuration be passed in through environment variables. Those are:
+
+`CIRCLE_CI_TOKEN`: the token used to access the circle ci api
+
+`GITHUB_TOKEN`: the token used to access the github API
 
 ## Example
 
 Based on the Slack conversation above, we would run this tool with:
 
-```text
-BRANCH_PREFIX=release/
-CIRCLE_CI_WORKFLOW_NAME=deploy_staging
-CIRCLE_CI_TOKEN=<token>
-CIRCLE_CI_PROJECT_SLUG=gh/GlossGenius/core-api
-GITHUB_ORG_SLUG=GlossGenius
-GITHUB_PROJECT_SLUG=core-api
-GITHUB_TOKEN=<token>
-```
-
-to rerun the release pipeline in question. If we combine this with a GitHub action that triggers on merge of a `hotfix/*` 
-branch, then we can successfully automate the manual action taken after a hotfix branch merges to master.
+jobs:
+  # deploy-release-to-staging re-triggers the circleci workflow that deploys the release candidate
+  deploy-release-to-staging:
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'hotfix/')
+    runs-on: ubuntu-latest
+    name: deploy-release-to-staging
+    steps:
+      - name: rerun deploy_staging
+        uses: GlossGenius/rerun-ci-workflow-for-branch@v1
+        id: rerun_workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CIRCLE_CI_TOKEN: ${{ secrets.CIRCLECI_API_TOKEN }}
+        with:
+          branch_prefix: release/
+          circle_ci_workflow_name: deploy_staging
+          circle_ci_project_slug: gh/${{ github.repository }}
+          github_repository_owner: ${{ github.repository_owner }}
+          github_project_slug: ${{ github.event.pull_request.base.repo.name }}
+          # TODO: delete this when done testing
+          dry_run: true
 
 ## Limitations
 
