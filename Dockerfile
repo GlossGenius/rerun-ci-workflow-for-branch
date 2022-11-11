@@ -17,5 +17,5 @@ RUN mkdir -p /app/home
 WORKDIR /app/home
 COPY --from=build /app/rerun-workflow-for-branch .
 
-ENTRYPOINT ["./rerun-workflow-for-branch"]
+ENTRYPOINT ["/app/home/rerun-workflow-for-branch"]
 
