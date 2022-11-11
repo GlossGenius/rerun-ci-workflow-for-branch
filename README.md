@@ -34,9 +34,8 @@ The project requires additional configuration be passed in through environment v
 ## Example
 
 Based on the Slack conversation above, we would run this tool with:
-
+```yaml
 jobs:
-  # deploy-release-to-staging re-triggers the circleci workflow that deploys the release candidate
   deploy-release-to-staging:
     if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'hotfix/')
     runs-on: ubuntu-latest
@@ -54,8 +53,8 @@ jobs:
           circle_ci_project_slug: gh/${{ github.repository }}
           github_repository_owner: ${{ github.repository_owner }}
           github_project_slug: ${{ github.event.pull_request.base.repo.name }}
-          # TODO: delete this when done testing
           dry_run: true
+```
 
 ## Limitations
 
