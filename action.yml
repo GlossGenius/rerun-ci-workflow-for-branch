@@ -1,0 +1,34 @@
+name: 'Rerun circleci workflow'
+author: "Michel Gleeson - https://github.com/michel-gleeson"
+description: 'reruns a circleci workflow for the most recent pipeline run based on a target git branch'
+inputs:
+  github_project_slug:
+    description: 'name of the project'
+    required: true
+  dry_run:
+    description: 'if true, workflow is not rerun, but a message is printed instead'
+    required: false
+    default: 'false'
+  circle_ci_project_slug:
+    description: 'the slug to give circle ci to find the relevant workflow. Ex: INPUT_CIRCLE_CI_PROJECT_SLUG=gh/GlossGenius/core-api'
+    required: true
+  circle_ci_workflow_name:
+    description: 'the name of the circle ci workflow to rerun. Ex: deploy_staging'
+    required: true
+  branch_prefix:
+    description: 'the prefix of the git branch to fetch the circle ci workflow from'
+    required: true
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  # according to https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs
+  # these need to be passed in order to create the INPUT_* environment variables.
+  # this might have strange interactions with the ENTRYPOINT of the container as documented here:
+  # it may end up that using environment variables for everything is easiest.
+  args:
+    - ${{ inputs.github_project_slug }}
+    - ${{ inputs.dry_run }}
+    - ${{ inputs.circle_ci_project_slug }}
+    - ${{ inputs.circle_ci_workflow_name }}
+    - ${{ inputs.branch_prefix }}
