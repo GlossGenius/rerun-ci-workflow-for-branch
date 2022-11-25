@@ -34,7 +34,7 @@ func (c *CircleCI) TriggerWorkflow(ctx context.Context, branch string, workflowN
 		return fmt.Errorf("getting pipelines for branch: %w", err)
 	}
 	if pipeline == nil {
-		log.Printf("WARNING: no pipelines found for branch with prefix %s - no work performed", branch)
+		log.Printf("WARNING: no pipelines found for branch with prefix %s for project slug %s - no work performed", branch, c.projectSlug)
 		return nil
 	}
 	workflow, err := c.getWorkflow(ctx, pipeline, workflowName)
@@ -105,12 +105,12 @@ func (c *CircleCI) getAllPipelinesForBranch(ctx context.Context, branch string) 
 // getMostRecentPipelineForBranch fetches the most recently created pipeline for a given git branch
 func (c *CircleCI) getMostRecentPipelineForBranch(ctx context.Context, branch string) (*circleci.Pipeline, error) {
 	pipelines, err := c.getAllPipelinesForBranch(ctx, branch)
+	if err != nil {
+		return nil, fmt.Errorf("getting all pipelines: %w", err)
+	}
 	pipelines = sortByCreateDate(removeNils(pipelines))
 	if len(pipelines) == 0 {
 		return nil, nil
-	}
-	if err != nil {
-		return nil, fmt.Errorf("getting all pipelines: %w", err)
 	}
 	return pipelines[0], nil
 }
