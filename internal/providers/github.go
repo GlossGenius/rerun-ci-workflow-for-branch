@@ -58,6 +58,10 @@ func (g *Github) GetBranch(ctx context.Context) (*github.Branch, error) {
 	if err != nil {
 		return nil, fmt.Errorf("getting all branches: %w", err)
 	}
+	log.Println("INFO: all branches:")
+	for _, branch := range branches {
+		log.Printf("branch name: %s\n", branch.GetName())
+	}
 	branch, err := getBranchWithPrefix(branches, g.branchPrefix)
 	if err != nil {
 		return nil, fmt.Errorf("getting branch: %w", err)
